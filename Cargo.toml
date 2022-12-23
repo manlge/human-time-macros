@@ -2,6 +2,10 @@
 name = "human-time-macros"
 version = "0.1.0"
 edition = "2021"
+license = "Apache-2.0"
+readme = "README.md"
+repository = "https://github.com/manlge/human-time-macros"
+description = "This is a library for human readable elapsed time string"
 
 [lib]
 proc-macro = true
