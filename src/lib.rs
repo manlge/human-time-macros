@@ -10,6 +10,7 @@ pub fn elapsed(_attr: TokenStream, func: TokenStream) -> TokenStream {
     let fn_block = &func.block;
 
     let fn_sig = func.sig;
+    let fn_asyncnes = &fn_sig.asyncness;
     let fn_ident = &fn_sig.ident;
     let fn_name_str = fn_ident.to_string();
     let fn_generics = &fn_sig.generics;
@@ -17,7 +18,7 @@ pub fn elapsed(_attr: TokenStream, func: TokenStream) -> TokenStream {
     let fn_output = &fn_sig.output;
 
     let new_fn = quote! {
-        #fn_vis fn #fn_ident #fn_generics(#fn_inputs) #fn_output {
+        #fn_vis #fn_asyncnes fn #fn_ident #fn_generics(#fn_inputs) #fn_output {
             use std::time;
 
             let start = time::Instant::now();
