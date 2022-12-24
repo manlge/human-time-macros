@@ -19,9 +19,10 @@ pub fn elapsed(_attr: TokenStream, func: TokenStream) -> TokenStream {
     let generics = &signature.generics;
     let inputs = &signature.inputs;
     let output = &signature.output;
+    let variadic = &signature.variadic;
 
     let new_fn = quote! {
-        #vis #constness #asyncness #unsafety #abi fn #ident #generics(#inputs) #output {
+        #vis #constness #asyncness #unsafety #abi fn #ident #generics(#inputs #variadic) #output {
             use std::time;
 
             let start = time::Instant::now();
