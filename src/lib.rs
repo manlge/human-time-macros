@@ -37,11 +37,13 @@ fn try_parse(input: ParseStream) -> Result<Args> {
             _ => panic!("illegal arguments, example: output=\"eprintln\""),
         })
         .collect::<BTreeMap<_, _>>();
-
+    if attributes.get("output").map(|x| x.trim().is_empty()) == Some(true) {
+        return Err(error("output must be specified"));
+    }
     Ok(Args { attributes })
 }
 
-fn _error(msg: &str) -> Error {
+fn error(msg: &str) -> Error {
     Error::new(Span::call_site(), msg)
 }
 
@@ -50,8 +52,8 @@ pub fn elapsed(args: TokenStream, func: TokenStream) -> TokenStream {
     let args: Args = parse_macro_input!(args as Args);
 
     let output_target = match args.attributes.get("output") {
-        Some(s) => s.clone(),
-        None => "println".to_string(),
+        Some(s) => s.to_string(),
+        _ => "println".to_string(),
     };
 
     let output_target = Ident::new(output_target.as_str(), Span::call_site());
